@@ -6,7 +6,7 @@ dotenv.config();
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(4000),
-  CORS_ORIGIN: z.string().url().default("http://localhost:3000"),
+  CORS_ORIGIN: z.string().min(1).default("http://localhost:3000"),
   GROQ_API_KEY: z.string().min(1, "GROQ_API_KEY is required"),
   GROQ_MODEL: z.string().default("llama-3.1-8b-instant"),
   DEMO_MODE: z

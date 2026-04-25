@@ -12,13 +12,28 @@ import { sanitizeMiddleware } from "./middleware/sanitizeMiddleware";
 import { sendSuccess } from "./utils/apiResponse";
 import { logger } from "./utils/logger";
 
+function resolveCorsOrigin(origin: string | undefined, callback: (err: Error | null, origin?: boolean | string) => void) {
+  if (env.CORS_ORIGIN === "*") {
+    callback(null, true);
+    return;
+  }
+
+  const allowedOrigins = env.CORS_ORIGIN.split(",").map((item) => item.trim());
+  if (!origin || allowedOrigins.includes(origin)) {
+    callback(null, true);
+    return;
+  }
+
+  callback(null, false);
+}
+
 export function createApp() {
   const app = express();
 
   app.use(helmet());
   app.use(
     cors({
-      origin: env.CORS_ORIGIN,
+      origin: resolveCorsOrigin,
       credentials: true
     })
   );
