@@ -1,6 +1,8 @@
 node_modules/
 .next/
 dist/
+.vercel/
+*/.vercel/
 .env
 .env.local
 .env.*.local
